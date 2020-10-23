@@ -1,0 +1,8 @@
+{
+  "mysql": {
+    "username": "blog.zozoo.net",
+    "password": "blog.zozoo.net",
+    "database": "blog.zozoo.net",
+    "host"    : "123.206.201.139:3306"
+  }
+}
