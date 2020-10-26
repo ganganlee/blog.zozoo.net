@@ -1,7 +1,6 @@
 package common
 
 import (
-	"fmt"
 	"github.com/dgrijalva/jwt-go"
 )
 
@@ -42,21 +41,19 @@ func (a *AccessToken)GenerateToken(expireAt int64)  error {
 }
 
 //验证token
-func (a *AccessToken)ValidateToken() (bool,error) {
-
-	token, err := jwt.Parse(a.Token, func(token *jwt.Token) (interface{}, error) {
-		// Don't forget to validate the alg is what you expect:
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
-		}
-
+func (a *AccessToken)ValidateToken() (string,error) {
+	accessToken := &AccessToken{}
+	token, err := jwt.ParseWithClaims(a.Token, accessToken, func(token *jwt.Token) (interface{}, error) {
 		return jwtSecret, nil
 	})
 
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		fmt.Println(claims)
-		return true,nil
-	} else {
-		return false,err
+	if err != nil {
+		return "",err
+	}
+
+	if claims,ok:=token.Claims.(*AccessToken);ok&&token.Valid{
+		return claims.Token,nil
+	}else {
+		return "",nil
 	}
 }

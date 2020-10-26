@@ -12,16 +12,20 @@ func LoginMiddleWare(context *gin.Context){
 	accessToken := common.AccessToken{
 		Token: authorization,
 	}
-	ok, err := accessToken.ValidateToken()
+
+	secret, err := accessToken.ValidateToken()
 	if err != nil {
-		common.ResponseFatal(context,400,"error",err.Error())
+		common.ResponseFatal(context,4001,"error",err.Error())
 		context.Abort()
 	}
 
-	if !ok {
+	if secret == "" {
 		common.ResponseFatal(context,400,"error","token验证失败")
 		context.Abort()
 	}
+
+	//设置用户secret
+	context.Set("userSecret",secret)
 
 	context.Next()
 	return

@@ -60,3 +60,17 @@ func (u *UserModel) LoginUser(user *User) error {
 
 	return nil
 }
+
+//根据用户私密key获取用户信息
+func (u *UserModel)GetUserInfoBySecret(user *User) error  {
+	ok, err := u.sql.Where("secret = ?", user.Secret).Get(user)
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return errors.New("用户不存在")
+	}
+
+	return nil
+}

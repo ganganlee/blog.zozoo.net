@@ -33,4 +33,9 @@ func (a *ArticleControl) AddArticle(c *gin.Context) {
 		return
 	}
 
+	//article := &model.Article{
+	//	UserId: 0,
+	//	Title: request.Title,
+	//	Content: request.Content,
+	//}
 }

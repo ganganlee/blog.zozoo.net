@@ -20,8 +20,7 @@ func CreateRoute(gin *gin.Engine) {
 		"mysql",
 		conf.Mysql.Username+":"+conf.Mysql.Password+"@("+conf.Mysql.Host+")/"+conf.Mysql.Database+"?charset=utf8mb4")
 	common.HandleErr(err, "连接数据库")
-	//延时关闭数据库
-	defer engine.Close()
+
 
 	//注册user控制器
 	userModel := model.NewUserModel(engine)

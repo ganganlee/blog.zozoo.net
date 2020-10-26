@@ -4,6 +4,7 @@ package model
 import (
 	"github.com/xormplus/xorm"
 	"time"
+	"errors"
 )
 
 type (
@@ -27,4 +28,18 @@ type (
 
 func NewArticleModel(sql *xorm.Engine) *ArticleModel  {
 	return &ArticleModel{sql: sql}
+}
+
+//添加文章
+func (a *ArticleModel)CreateArticle(article *Article)error  {
+	n, err := a.sql.Insert(article)
+	if err != nil {
+		return err
+	}
+
+	if n == 0 {
+		return errors.New("插入失败")
+	}
+
+	return nil
 }
